@@ -1,3 +1,5 @@
+require_relative "../lib/Bike.rb"
+
 class DockingStation
   attr_accessor :bikes, :capacity
   DEFAULT_CAPACITY = 20
@@ -9,13 +11,19 @@ class DockingStation
 
   def release_bike
     fail "There are no more bikes available" if empty?
-    @bikes.pop
+    fail "Bike is broken, you can't have it!" if @bikes.first.working? == false
+    @bikes.shift    
   end
 
   def dock(bike)
     fail "The docking station is full" if full?
     @bikes << bike
     @bikes.last
+  end
+
+  def report_broken(bike)
+    dock(bike)
+    bike.condition = "bad"
   end
 
 private
