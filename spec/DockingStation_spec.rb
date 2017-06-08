@@ -1,6 +1,18 @@
 require 'DockingStation.rb'
 
 describe DockingStation do
+
+  describe '#capacity' do
+    it 'allows you to set a capacity' do
+      station = DockingStation.new(40)
+      expect(station.capacity).to eq 40
+    end
+
+    it 'gets the default capacity when nothing is set' do
+      expect(subject.capacity).to eq 20
+    end
+  end
+
   it { is_expected.to respond_to(:release_bike) }
 
   describe '#release_bike' do
