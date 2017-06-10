@@ -1,14 +1,22 @@
 class Bike
 
-  attr_accessor :condition
+  attr_accessor :working
 
-  def initialize(condition = "good")
-    @condition = condition
+  def initialize(working = true)
+    @working = working
   end
 
   def working?
-    @condition == "good" ? true : false
+    self.working
   end
 
+  def broken?
+    working? == false
+  end
+
+  def break
+    self.working = false
+    self
+  end
 
 end

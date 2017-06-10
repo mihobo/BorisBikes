@@ -11,8 +11,18 @@ class DockingStation
 
   def release_bike
     fail "There are no more bikes available" if empty?
-    fail "Bike is broken, you can't have it!" if @bikes.first.working? == false
-    @bikes.shift    
+    find_working
+    if @working_bike != nil
+      @working_bike
+      @bikes.delete_at(@index)
+    else
+      fail "No working bikes available!"
+    end
+  end
+
+  def find_working
+    @index = @bikes.find_index { |bike| bike.working? == true }
+      @index != nil ? @working_bike = @bikes[@index] : @working_bike = nil
   end
 
   def dock(bike)
@@ -21,18 +31,13 @@ class DockingStation
     @bikes.last
   end
 
-  def report_broken(bike)
-    dock(bike)
-    bike.condition = "bad"
-  end
-
 private
 
   def full?
-    @bikes.count >= DEFAULT_CAPACITY ? true : false
+    @bikes.count >= DEFAULT_CAPACITY
   end
 
   def empty?
-    @bikes.count < 1 ? true : false
+    @bikes.count < 1
   end
 end
